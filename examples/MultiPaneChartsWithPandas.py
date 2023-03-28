@@ -1,5 +1,5 @@
 import streamlit as st
-from streamlit_lightweight_charts import renderLightweightCharts
+from streamlit_lightweight_charts_ntf import renderLightweightCharts
 
 import json
 import numpy as np

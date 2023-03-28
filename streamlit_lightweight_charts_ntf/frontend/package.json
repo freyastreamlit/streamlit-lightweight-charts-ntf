@@ -1,5 +1,5 @@
 {
-  "name": "streamlit_lightweight_charts",
+  "name": "streamlit_lightweight_charts_ntf",
   "version": "0.0.7",
   "private": false,
   "dependencies": {
@@ -10,7 +10,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
-    "lightweight-charts": "^4.0.0",
+    "lightweight-charts": "git+https://github.com/freyastreamlit/lightweight-charts#ntf",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",

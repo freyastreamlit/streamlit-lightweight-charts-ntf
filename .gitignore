@@ -54,5 +54,5 @@ build/
 ## React and Javascript
 
 .DS_STORE
-streamlit_lightweight_charts/frontend/node_modules
+streamlit_lightweight_charts_ntf/frontend/node_modules
 .vscode

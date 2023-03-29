@@ -30,7 +30,7 @@ setuptools.setup(
     package_dir={'streamlit_lightweight_charts_ntf': 'streamlit_lightweight_charts_ntf'},
     package_data={
         'streamlit_lightweight_charts_ntf' : ['frontend/yarn.lock','frontend/package.json','frontend/build/index.html'],
-        'streamlit_lightweight_charts_ntf.frontend' : ['frontend/build/index.html'],
+        'streamlit_lightweight_charts_ntf.frontend' : ['streamlit_lightweight_charts_ntf/frontend/build/index.html'],
 
         # '': ['*'],
         # 'streamlit_lightweight_charts_ntf.frontend.build.static.js': ['*']

@@ -35,8 +35,8 @@ include_package_data = true
 #     "frontend/build/static/js/*"
 # ]
 
-[tool.setuptools]
-include-package-data = true
+# [tool.setuptools]
+# include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["streamlit_lightweight_charts_ntf"]

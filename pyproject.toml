@@ -29,11 +29,17 @@ version = "0.7.18"
 
 include_package_data = true
 
-[options.package_data]
-streamlit_lightweight_charts_ntf = [
-    "frontend/build/*",
-    "frontend/build/static/js/*"
-]
+# [options.package_data]
+# streamlit_lightweight_charts_ntf = [
+#     "frontend/build/*",
+#     "frontend/build/static/js/*"
+# ]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["streamlit_lightweight_charts_ntf"]
 
 # [project.scripts]
 # my-script = "my_package.module:function"

@@ -27,15 +27,17 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/freyastreamlit/streamlit-lightweight-charts-ntf",
     include_package_data = True,
-    packages=['streamlit_lightweight_charts_ntf','streamlit_lightweight_charts_ntf.frontend.build'],
+    packages=['streamlit_lightweight_charts_ntf'],
+    # packages=['streamlit_lightweight_charts_ntf','streamlit_lightweight_charts_ntf.frontend','streamlit_lightweight_charts_ntf.frontend.build'],
     # package_dir={'streamlit_lightweight_charts_ntf': 'streamlit_lightweight_charts_ntf'},
     package_data={
-        'streamlit_lightweight_charts_ntf': ['frontend/package.json'],
-        'streamlit_lightweight_charts_ntf.frontend.build': [
-            "**/*.html",
-            # 'frontend/build/static/js/*',
-            # 'frontend/build/index.html',
-        ],
+        'streamlit_lightweight_charts_ntf': ['frontend/build/*','frontend/build/static/js/*'],
+        # 'streamlit_lightweight_charts_ntf.frontend': ['**/'],
+        # 'streamlit_lightweight_charts_ntf.frontend.build': [
+        #     "**/*.html",
+        #     # 'frontend/build/static/js/*',
+        #     # 'frontend/build/index.html',
+        # ],
     },
 
     # package_data={

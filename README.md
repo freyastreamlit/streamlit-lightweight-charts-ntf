@@ -5,6 +5,7 @@ Streamlit wrapper for performant Tradingview's Financial: `lightweight-charts` u
  - synchronises panes mouse moves
  - synchronises the hair-cross cursor between charts
 
+Documentation
 - [Features Demo](https://www.tradingview.com/lightweight-charts/)
 - [Documentation](https://tradingview.github.io/lightweight-charts/)
 - [GitHub](https://github.com/tradingview/lightweight-charts)

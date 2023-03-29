@@ -109,19 +109,8 @@ if not _RELEASE:
     df.ta.macd(close='close', fast=6, slow=12, signal=5, append=True)           # calculate macd
     df.ta.ema(close='close', length=14, offset=None, append=True)               # EMA fast
     df.ta.sma(close='close', length=60, offset=None, append=True)               # SMA slow
-    # print('DF',df)
 
-    # FUNCTION for makeData - 'value' and 'color'
-    # extract to JSON format
-    # candles = json.loads(df.to_json(orient = "records"))
-    # volume = json.loads(df.rename(columns={"volume": "value",}).to_json(orient = "records"))
-    # sma_slow = json.loads(df.iloc[60:,:].rename(columns={"SMA_60": "value",}).to_json(orient = "records"))
-    # ema_fast = json.loads(df.iloc[14:,:].rename(columns={"EMA_14": "value",}).to_json(orient = "records"))
-    # macd_fast = json.loads(df.rename(columns={"MACDh_6_12_5": "value"}).to_json(orient = "records"))
-    # macd_slow = json.loads(df.rename(columns={"MACDs_6_12_5": "value"}).to_json(orient = "records"))
-    # df['color'] = np.where(  df['MACD_6_12_5'] > 0, COLOR_BULL, COLOR_BEAR)  # MACD histogram color
-    # macd_hist = json.loads(df.rename(columns={"MACD_6_12_5": "value"}).to_json(orient = "records"))
-
+    # export to JSON format
     df['color'] = np.where(  df['open'] > df['close'], COLOR_BEAR, COLOR_BULL)  # bull or bear
     candles = json.loads(df.to_json(orient = "records"))
     volume = dataToJSON(df,'volume')
@@ -129,7 +118,7 @@ if not _RELEASE:
     ema_fast = dataToJSON(df, "EMA_14", 14, 'orange')
     macd_fast = dataToJSON(df, "MACDh_6_12_5", 0, 'orange')
     macd_slow = dataToJSON(df, "MACDs_6_12_5", 0, 'blue')
-    df['color'] = np.where(  df['MACD_6_12_5'] > 0, COLOR_BULL, COLOR_BEAR)  # MACD histogram color
+    df['color'] = np.where(  df['MACD_6_12_5'] > 0, COLOR_BULL, COLOR_BEAR)     # MACD histogram color
     macd_hist = dataToJSON(df, "MACD_6_12_5")
 
     chartMultipaneOptions = [

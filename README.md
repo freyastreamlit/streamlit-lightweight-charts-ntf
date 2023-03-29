@@ -56,29 +56,48 @@ import yfinance as yf
 import pandas as pd
 import pandas_ta as ta
 
+COLOR_BULL = 'rgba(38,166,154,0.9)' # #26a69a
+COLOR_BEAR = 'rgba(239,83,80,0.9)'  # #ef5350
+
+def dataToJSON(df, column, slice=0, color=None):
+    data = df[['time', column, 'color']].copy()
+    data = data.rename(columns={column: "value"})
+    if(color == None):
+        data.drop('color', axis=1)
+    elif(color != 'default'):
+        data['color'] = color
+    if(slice > 0):
+        data = data.iloc[slice:,:]
+    return json.loads(data.to_json(orient = "records"))
+
 # Request historic pricing data via finance.yahoo.com API
-df = yf.Ticker('AAPL').history(period='4mo')[['Open', 'High', 'Low', 'Close', 'Volume']]
+df = yf.Ticker('AAPL').history(period='9mo')[['Open', 'High', 'Low', 'Close', 'Volume']]
 
 # Some data wrangling to match required format
 df = df.reset_index()
 df.columns = ['time','open','high','low','close','volume']                  # rename columns
 df['time'] = df['time'].dt.strftime('%Y-%m-%d')                             # Date to string
-df['color'] = np.where(  df['open'] > df['close'], '#ef5350', '#26a69a')    # bull or bear
-df.ta.macd(close='close', fast=6, slow=12, signal=5, append=True)          # calculate macd
 
-# extract to JSON format
+# indicators
+df.ta.macd(close='close', fast=6, slow=12, signal=5, append=True)           # calculate macd
+df.ta.ema(close='close', length=14, offset=None, append=True)               # EMA fast
+df.ta.sma(close='close', length=60, offset=None, append=True)               # SMA slow
+
+# export to JSON format
+df['color'] = np.where(  df['open'] > df['close'], COLOR_BEAR, COLOR_BULL)  # bull or bear
 candles = json.loads(df.to_json(orient = "records"))
-volume = json.loads(df.rename(columns={"volume": "value",}).to_json(orient = "records"))
-macd_fast = json.loads(df.rename(columns={"MACDh_6_12_5": "value"}).to_json(orient = "records"))
-macd_slow = json.loads(df.rename(columns={"MACDs_6_12_5": "value"}).to_json(orient = "records"))
-df['color'] = np.where(  df['MACD_6_12_5'] > 0, '#26a69a', '#ef5350')  # MACD histogram color
-macd_hist = json.loads(df.rename(columns={"MACD_6_12_5": "value"}).to_json(orient = "records"))
-
+volume = dataToJSON(df,'volume')
+sma_slow = dataToJSON(df,"SMA_60", 60, 'blue')
+ema_fast = dataToJSON(df, "EMA_14", 14, 'orange')
+macd_fast = dataToJSON(df, "MACDh_6_12_5", 0, 'orange')
+macd_slow = dataToJSON(df, "MACDs_6_12_5", 0, 'blue')
+df['color'] = np.where(  df['MACD_6_12_5'] > 0, COLOR_BULL, COLOR_BEAR)     # MACD histogram color
+macd_hist = dataToJSON(df, "MACD_6_12_5")
 
 chartMultipaneOptions = [
     {
         "width": 600,
-        "height": 400,
+        "height": 600,
         "layout": {
             "background": {
                 "type": "solid",
@@ -94,121 +113,77 @@ chartMultipaneOptions = [
                 "color": "rgba(197, 203, 206, 0.5)"
             }
         },
-        "crosshair": {
-            "mode": 0
-        },
+        # "crosshair": {
+        #     "mode": 0
+        # },
         "priceScale": {
             "borderColor": "rgba(197, 203, 206, 0.8)"
         },
         "timeScale": {
             "borderColor": "rgba(197, 203, 206, 0.8)",
-            "barSpacing": 15
+            "barSpacing": 10,
+            "minBarSpacing": 8
         },
-        "watermark": {
-            "visible": True,
-            "fontSize": 48,
-            "horzAlign": 'center',
-            "vertAlign": 'center',
-            "color": 'rgba(171, 71, 188, 0.3)',
-            "text": 'AAPL - D1',
-        }
-    },
-    {
-        "width": 600,
-        "height": 100,
-        "layout": {
-            "background": {
-                "type": 'solid',
-                "color": 'transparent'
-            },
-            "textColor": 'black',
-        },
-        "grid": {
-            "vertLines": {
-                "color": 'rgba(42, 46, 57, 0)',
-            },
-            "horzLines": {
-                "color": 'rgba(42, 46, 57, 0.6)',
-            }
-        },
-        "timeScale": {
-            "visible": False,
-        },
-        "watermark": {
-            "visible": True,
-            "fontSize": 18,
-            "horzAlign": 'left',
-            "vertAlign": 'top',
-            "color": 'rgba(171, 71, 188, 0.7)',
-            "text": 'Volume',
-        }
-    },
-    {
-        "width": 600,
-        "height": 200,
-        "layout": {
-            "background": {
-                "type": "solid",
-                "color": 'white'
-            },
-            "textColor": "black"
-        },
-        "timeScale": {
-            "visible": False,
-        },
-        "watermark": {
-            "visible": True,
-            "fontSize": 18,
-            "horzAlign": 'left',
-            "vertAlign": 'center',
-            "color": 'rgba(171, 71, 188, 0.7)',
-            "text": 'MACD',
-        }
+        # "watermark": {
+        #     "visible": True,
+        #     "fontSize": 48,
+        #     "horzAlign": 'center',
+        #     "vertAlign": 'center',
+        #     "color": 'rgba(171, 71, 188, 0.3)',
+        #     "text": 'AAPL - D1',
+        # },
     }
 ]
 
-seriesCandlestickChart = [
+seriesMultipaneChart = [
     {
         "type": 'Candlestick',
         "data": candles,
         "options": {
-            "upColor": '#26a69a',
-            "downColor": '#ef5350',
+            "upColor": COLOR_BULL,
+            "downColor": COLOR_BEAR,
             "borderVisible": False,
-            "wickUpColor": '#26a69a',
-            "wickDownColor": '#ef5350'
+            "wickUpColor": COLOR_BULL,
+            "wickDownColor": COLOR_BEAR,
+            "pane": 0
         }
-    }
-]
-
-seriesVolumeChart = [
+    },
+    {
+        "type": 'Line',
+        "data": sma_slow,
+        "options": {
+            "color": 'blue',
+            "lineWidth": 2,
+            "pane": 0
+        }
+    },
+    {
+        "type": 'Line',
+        "data": ema_fast,
+        "options": {
+            "color": 'green',
+            "lineWidth": 2,
+            "pane": 0
+        }
+    },
     {
         "type": 'Histogram',
         "data": volume,
         "options": {
-            "color": '#26a69a',
             "priceFormat": {
                 "type": 'volume',
             },
-            "priceScaleId": "" # set as an overlay setting,
-        },
-        "priceScale": {
-            "scaleMargins": {
-                "top": 0,
-                "bottom": 0,
-            },
-            "alignLabels": False
-        }
-    }
-]
+            "pane": 1
 
-seriesMACDchart = [
+        }
+    },
     {
         "type": 'Line',
         "data": macd_fast,
         "options": {
             "color": 'blue',
-            "lineWidth": 2
+            "lineWidth": 2,
+            "pane": 2
         }
     },
     {
@@ -216,7 +191,8 @@ seriesMACDchart = [
         "data": macd_slow,
         "options": {
             "color": 'green',
-            "lineWidth": 2
+            "lineWidth": 2,
+            "pane": 2
         }
     },
     {
@@ -224,7 +200,8 @@ seriesMACDchart = [
         "data": macd_hist,
         "options": {
             "color": 'red',
-            "lineWidth": 1
+            "lineWidth": 1,
+            "pane": 2
         }
     }
 ]
@@ -234,15 +211,7 @@ st.subheader("Multipane Chart with Pandas")
 renderLightweightCharts([
     {
         "chart": chartMultipaneOptions[0],
-        "series": seriesCandlestickChart
-    },
-    {
-        "chart": chartMultipaneOptions[1],
-        "series": seriesVolumeChart
-    },
-    {
-        "chart": chartMultipaneOptions[2],
-        "series": seriesMACDchart
+        "series": seriesMultipaneChart
     }
 ], 'multipane')
 ```

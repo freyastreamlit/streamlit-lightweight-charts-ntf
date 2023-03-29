@@ -50,7 +50,6 @@ __pypackages__/
 
 .pypirc
 
-build/
 ## React and Javascript
 
 .DS_STORE

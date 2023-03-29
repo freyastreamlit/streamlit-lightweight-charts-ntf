@@ -3,7 +3,9 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-print('find_packages',setuptools.find_packages())
+# There is sdist and bdist
+# sdist is with source - package_data is used
+# bdist is with whl file - MANIFEST.in is used
 
 setuptools.setup(
     name="streamlit-lightweight-charts-ntf",
@@ -16,10 +18,11 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/freyastreamlit/streamlit-lightweight-charts-ntf",
+    include_package_data = True,
     packages=['streamlit_lightweight_charts_ntf'],
-    package_dir={'streamlit_lightweight_charts_ntf': 'streamlit_lightweight_charts_ntf'},
-    package_data={'streamlit_lightweight_charts_ntf': ['frontend/build/*.*','frontend/build/static/js/*.*' ]},
-    include_package_data=True,
+    package_data={
+        'streamlit_lightweight_charts_ntf': ['frontend/build/*','frontend/build/static/js/*'],
+    },
     python_requires=">=3.6",
     install_requires=[
         "streamlit >= 0.62",

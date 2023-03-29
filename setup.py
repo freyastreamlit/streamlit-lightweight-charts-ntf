@@ -27,7 +27,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/freyastreamlit/streamlit-lightweight-charts-ntf",
     packages=['streamlit_lightweight_charts_ntf'],
-    package_data={'': extra_files },
+    package_data={'streamlit_lightweight_charts_ntf': ['frontend/build/*.*'] },
     include_package_data=True,
     python_requires=">=3.6",
     install_requires=[

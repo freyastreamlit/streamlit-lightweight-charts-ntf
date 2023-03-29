@@ -20,7 +20,7 @@ dependencies = [
     "streamlit >= 0.62",
 ]
 # url="https://github.com/freyastreamlit/streamlit-lightweight-charts-ntf"
-version = "0.7.18"
+# version = "0.7.18"
 # dynamic = ["version"]
 
 # [project.optional-dependencies]

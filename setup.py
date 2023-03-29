@@ -1,4 +1,14 @@
+import os
 import setuptools
+
+def package_files(directory):
+    paths = []
+    for (path, directories, filenames) in os.walk(directory):
+        for filename in filenames:
+            paths.append(os.path.join('..', path, filename))
+    return paths
+
+extra_files = package_files('frontend')
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -17,11 +27,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/freyastreamlit/streamlit-lightweight-charts-ntf",
     packages=['streamlit_lightweight_charts_ntf'],
-    package_dir={'streamlit_lightweight_charts_ntf': 'streamlit_lightweight_charts_ntf'},
-    package_data={
-        'streamlit_lightweight_charts_ntf.frontend.build': ['*'],
-        'streamlit_lightweight_charts_ntf.frontend.build.static.js': ['*']
-    },
+    package_data={'': extra_files },
     include_package_data=True,
     python_requires=">=3.6",
     install_requires=[

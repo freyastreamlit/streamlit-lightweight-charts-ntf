@@ -19,7 +19,7 @@ license = {text = "UNLICENSED"}
 dependencies = [
     "streamlit >= 0.62",
 ]
-url="https://github.com/freyastreamlit/streamlit-lightweight-charts-ntf"
+# url="https://github.com/freyastreamlit/streamlit-lightweight-charts-ntf"
 version = "0.7.18"
 # dynamic = ["version"]
 
@@ -30,7 +30,7 @@ version = "0.7.18"
 include_package_data = true
 
 [options.package_data]
-my_package = [
+streamlit_lightweight_charts_ntf = [
     "frontend/build/*",
     "frontend/build/static/js/*"
 ]

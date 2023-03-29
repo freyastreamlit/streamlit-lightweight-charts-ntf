@@ -28,16 +28,13 @@ setuptools.setup(
     url="https://github.com/freyastreamlit/streamlit-lightweight-charts-ntf",
     packages=['streamlit_lightweight_charts_ntf'],
     package_dir={'streamlit_lightweight_charts_ntf': 'streamlit_lightweight_charts_ntf'},
-    # package_data={
-    #     'streamlit_lightweight_charts_ntf' : ['frontend/yarn.lock','frontend/package.json','frontend/build/index.html'],
+    package_data={
+        'streamlit_lightweight_charts_ntf' : ['frontend/yarn.lock','frontend/package.json','frontend/build/index.html'],
+        'streamlit_lightweight_charts_ntf.frontend' : ['build/index.html'],
 
-    #     # '': ['*'],
-    #     # 'streamlit_lightweight_charts_ntf.frontend.build.static.js': ['*']
-    # },
-    data_files=[
-        ('/frontend/build', ['streamlit_lightweight_charts_ntf/frontend/build/*']),
-        ('/frontend/build/static/js', ['streamlit_lightweight_charts_ntf/frontend/build/static/js/*'])
-    ],
+        # '': ['*'],
+        # 'streamlit_lightweight_charts_ntf.frontend.build.static.js': ['*']
+    },
     include_package_data=True,
     python_requires=">=3.6",
     install_requires=[

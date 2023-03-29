@@ -32,7 +32,7 @@ setuptools.setup(
     package_data={
         'streamlit_lightweight_charts_ntf': ['frontend/package.json'],
         'streamlit_lightweight_charts_ntf.frontend': [
-            'build/index.html',
+            'frontend/build/index.html',
             # 'frontend/build/static/js/*',
             # 'frontend/build/index.html',
         ],

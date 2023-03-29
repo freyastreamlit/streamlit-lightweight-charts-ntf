@@ -8,7 +8,7 @@ def package_files(directory):
             paths.append(os.path.join('..', path, filename))
     return paths
 
-extra_files = package_files('frontend')
+extra_files = package_files('streamlit_lightweight_charts_ntf/frontend/build')
 
 with open("README.md", "r") as fh:
     long_description = fh.read()

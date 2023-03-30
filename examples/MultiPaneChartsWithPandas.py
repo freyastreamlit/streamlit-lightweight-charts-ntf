@@ -22,6 +22,11 @@ def dataToJSON(df, column, slice=0, color=None):
     return json.loads(data.to_json(orient = "records"))
 
 # Request historic pricing data via finance.yahoo.com API
+# periods: 1d, 5d, 1mo, 3mo, 6mo, 1yr, 2yr, 5y, 10yr, ytd.max
+# intervals: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
+# df = pd.DataFrame()
+# df = df.ta.ticker('AAPL', period="6mo", interval="1d" )[['Open', 'High', 'Low', 'Close', 'Volume']]
+
 df = yf.Ticker('AAPL').history(period='9mo')[['Open', 'High', 'Low', 'Close', 'Volume']]
 
 # Some data wrangling to match required format
@@ -33,13 +38,20 @@ df['time'] = df['time'].dt.strftime('%Y-%m-%d')                             # Da
 df.ta.macd(close='close', fast=6, slow=12, signal=5, append=True)           # calculate macd
 df.ta.ema(close='close', length=14, offset=None, append=True)               # EMA fast
 df.ta.sma(close='close', length=60, offset=None, append=True)               # SMA slow
+df.ta.rsi(close='close', length=14, offset=None, append=True)               # RSI - momentum oscillator
+# df['VOL_ASK'] = -df['volume']
+df['VOL_ASK'] = -df['volume'].sample(frac=1).values                         # shuffle and negate volume values
+
+# print('DF', df)
 
 # export to JSON format
 df['color'] = np.where(  df['open'] > df['close'], COLOR_BEAR, COLOR_BULL)  # bull or bear
 candles = json.loads(df.to_json(orient = "records"))
-volume = dataToJSON(df,'volume')
 sma_slow = dataToJSON(df,"SMA_60", 60, 'blue')
 ema_fast = dataToJSON(df, "EMA_14", 14, 'orange')
+vol_BID = dataToJSON(df,'volume', 0, COLOR_BULL)
+vol_ASK = dataToJSON(df,'VOL_ASK', 0, COLOR_BEAR)
+rsi = dataToJSON(df,'RSI_14', 14, 'purple')
 macd_fast = dataToJSON(df, "MACDh_6_12_5", 0, 'orange')
 macd_slow = dataToJSON(df, "MACDs_6_12_5", 0, 'blue')
 df['color'] = np.where(  df['MACD_6_12_5'] > 0, COLOR_BULL, COLOR_BEAR)     # MACD histogram color
@@ -119,7 +131,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Histogram',
-        "data": volume,
+        "data": vol_BID,
         "options": {
             "priceFormat": {
                 "type": 'volume',
@@ -129,30 +141,50 @@ seriesMultipaneChart = [
         }
     },
     {
+        "type": 'Histogram',
+        "data": vol_ASK,
+        "options": {
+            "priceFormat": {
+                "type": 'volume',
+            },
+            # "priceFormat": {
+            #     "type": 'custom',
+            #     "formatter": (price) => Math.abs(price / 1000000).toFixed(2),
+	        # },
+            "pane": 1
+
+        }
+    },
+    {
+        "type": 'Line',
+        "data": rsi,
+        "options": {
+            "lineWidth": 2,
+            "pane": 2
+        }
+    },
+    {
         "type": 'Line',
         "data": macd_fast,
         "options": {
-            "color": 'blue',
             "lineWidth": 2,
-            "pane": 2
+            "pane": 3
         }
     },
     {
         "type": 'Line',
         "data": macd_slow,
         "options": {
-            "color": 'green',
             "lineWidth": 2,
-            "pane": 2
+            "pane": 3
         }
     },
     {
         "type": 'Histogram',
         "data": macd_hist,
         "options": {
-            "color": 'red',
             "lineWidth": 1,
-            "pane": 2
+            "pane": 3
         }
     }
 ]

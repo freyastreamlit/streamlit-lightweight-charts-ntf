@@ -22,11 +22,6 @@ def dataToJSON(df, column, slice=0, color=None):
     return json.loads(data.to_json(orient = "records"))
 
 # Request historic pricing data via finance.yahoo.com API
-# periods: 1d, 5d, 1mo, 3mo, 6mo, 1yr, 2yr, 5y, 10yr, ytd.max
-# intervals: 1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo
-# df = pd.DataFrame()
-# df = df.ta.ticker('AAPL', period="6mo", interval="1d" )[['Open', 'High', 'Low', 'Close', 'Volume']]
-
 df = yf.Ticker('AAPL').history(period='9mo')[['Open', 'High', 'Low', 'Close', 'Volume']]
 
 # Some data wrangling to match required format
@@ -39,10 +34,7 @@ df.ta.macd(close='close', fast=6, slow=12, signal=5, append=True)           # ca
 df.ta.ema(close='close', length=14, offset=None, append=True)               # EMA fast
 df.ta.sma(close='close', length=60, offset=None, append=True)               # SMA slow
 df.ta.rsi(close='close', length=14, offset=None, append=True)               # RSI - momentum oscillator
-# df['VOL_ASK'] = -df['volume']
 df['VOL_ASK'] = -df['volume'].sample(frac=1).values                         # shuffle and negate volume values
-
-# print('DF', df)
 
 # export to JSON format
 df['color'] = np.where(  df['open'] > df['close'], COLOR_BEAR, COLOR_BULL)  # bull or bear
@@ -76,9 +68,6 @@ chartMultipaneOptions = [
                 "color": "rgba(197, 203, 206, 0.5)"
             }
         },
-        # "crosshair": {
-        #     "mode": 0
-        # },
         "priceScale": {
             "borderColor": "rgba(197, 203, 206, 0.8)"
         },
@@ -86,15 +75,7 @@ chartMultipaneOptions = [
             "borderColor": "rgba(197, 203, 206, 0.8)",
             "barSpacing": 10,
             "minBarSpacing": 8
-        },
-        # "watermark": {
-        #     "visible": True,
-        #     "fontSize": 48,
-        #     "horzAlign": 'center',
-        #     "vertAlign": 'center',
-        #     "color": 'rgba(171, 71, 188, 0.3)',
-        #     "text": 'AAPL - D1',
-        # },
+        }
     }
 ]
 

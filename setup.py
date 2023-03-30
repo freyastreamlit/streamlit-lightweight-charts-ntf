@@ -1,4 +1,3 @@
-import os
 import setuptools
 
 with open("README.md", "r") as fh:
@@ -6,7 +5,7 @@ with open("README.md", "r") as fh:
 
 # There is sdist and bdist
 # sdist is with source - package_data is used
-# bdist is with whl file, MANIFEST.in is used
+# bdist is with whl file - MANIFEST.in is used
 
 setuptools.setup(
     name="streamlit-lightweight-charts-ntf",

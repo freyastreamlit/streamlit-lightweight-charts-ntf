@@ -16,6 +16,12 @@ And a nice use example from DeKay
 - [Youtube #1](https://www.youtube.com/watch?v=NlHjhmIe1EI)
 - [Youtube #2](https://www.youtube.com/watch?v=2nxj4aLBhgo)
 
+## How to install:
+This is a private repository, to install:
+```
+python -m pip install git+https://oauth2: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@github.com/freyastreamlit/streamlit-lightweight-charts-ntf
+```
+
 ## How to use:
 ```
 renderLightweightCharts(charts: <List of Dicts> , key: <str>)

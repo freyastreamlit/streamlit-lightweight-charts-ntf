@@ -23,7 +23,9 @@ python -m pip install git+https://oauth2:ghp_6hR9amg4Fglb64SHY086c3lW6tlZJR3YDVC
 ```
 
 ## How to use:
-```
+```python
+from streamlit_lightweight_charts_ntf import renderLightweightCharts
+
 renderLightweightCharts(charts: <List of Dicts> , key: <str>)
 ```
 

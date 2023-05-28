@@ -4,7 +4,7 @@ from enum import Enum
 import streamlit.components.v1 as components
 
 _COMPONENT_NAME = "streamlit_lightweight_charts_ntf"
-_RELEASE = False
+_RELEASE = True
 
 class Chart(str, Enum):
     Area = 'addAreaSeries'

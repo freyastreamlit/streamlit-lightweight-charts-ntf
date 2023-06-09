@@ -1,5 +1,10 @@
 # streamlit-lightweight-charts-ntf
-Streamlit wrapper for performant Tradingview's Financial: `lightweight-charts` using the [ntf](https://github.com/ntf/lightweight-charts) fork that augments the [lightweight-charts](https://tradingview.github.io/lightweight-charts/) with an effective multipane experience:
+
+This streamlit plugin uses a fork [ntf](https://github.com/ntf/lightweight-charts) of `lightweight-charts`.
+It augments the [lightweight-charts](https://tradingview.github.io/lightweight-charts/) with an effective multipane experience.
+
+The [ntf](https://github.com/ntf/lightweight-charts) fork is frozen in an old version, there are no further developments, and no further updates - it is a `AS IT IS`situation.
+Although it seems very stable and very useful for financial and trading Data Science. It has an extra option `pane` that:
 
  - Aligns panes - by width
  - synchronises panes mouse moves
@@ -11,15 +16,14 @@ Documentation
 - [GitHub](https://github.com/tradingview/lightweight-charts)
 - [Use example](https://jsfiddle.net/adrianntf/6qea5ytv/)
 
-And a nice use example from DeKay
+A nice example from DeKay on how to use:
 - [GitHub](https://github.com/karthik947/PlotIndicators)
 - [Youtube #1](https://www.youtube.com/watch?v=NlHjhmIe1EI)
 - [Youtube #2](https://www.youtube.com/watch?v=2nxj4aLBhgo)
 
 ## How to install:
-This is a private repository, to install:
 ```
-python -m pip install git+https://oauth2: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@github.com/freyastreamlit/streamlit-lightweight-charts-ntf
+python -m pip install streamlit-lightweight-charts-ntf
 ```
 
 ## How to use:
@@ -48,6 +52,9 @@ renderLightweightCharts(charts: <List of Dicts> , key: <str>)
         - markers: `<List of Dicts>` optional
 
 - key: `<str>` when creating multiple charts in one page
+
+### The extra option: `pane`
+In the example below you will notice the option `pane` that is used to group charts 
 
 ---
 <br />
@@ -91,15 +98,15 @@ df.ta.macd(close='close', fast=6, slow=12, signal=5, append=True)           # ca
 df.ta.ema(close='close', length=14, offset=None, append=True)               # EMA fast
 df.ta.sma(close='close', length=60, offset=None, append=True)               # SMA slow
 df.ta.rsi(close='close', length=14, offset=None, append=True)               # RSI - momentum oscillator
-df['VOL_ASK'] = -df['volume'].sample(frac=1).values                         # shuffle and negate volume values
+df['VOL_BID'] = -df['volume'].sample(frac=1).values                         # shuffle and negate volume values
 
 # export to JSON format
 df['color'] = np.where(  df['open'] > df['close'], COLOR_BEAR, COLOR_BULL)  # bull or bear
 candles = json.loads(df.to_json(orient = "records"))
 sma_slow = dataToJSON(df,"SMA_60", 60, 'blue')
 ema_fast = dataToJSON(df, "EMA_14", 14, 'orange')
-vol_BID = dataToJSON(df,'volume', 0, COLOR_BULL)
-vol_ASK = dataToJSON(df,'VOL_ASK', 0, COLOR_BEAR)
+vol_ASK = dataToJSON(df,'volume', 0, COLOR_BULL)
+vol_BID = dataToJSON(df,'VOL_BID', 0, COLOR_BEAR)
 rsi = dataToJSON(df,'RSI_14', 14, 'purple')
 macd_fast = dataToJSON(df, "MACDh_6_12_5", 0, 'orange')
 macd_slow = dataToJSON(df, "MACDs_6_12_5", 0, 'blue')
@@ -169,7 +176,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Histogram',
-        "data": vol_BID,
+        "data": vol_ASK,
         "options": {
             "priceFormat": {
                 "type": 'volume',
@@ -180,15 +187,11 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Histogram',
-        "data": vol_ASK,
+        "data": vol_BID,
         "options": {
             "priceFormat": {
                 "type": 'volume',
             },
-            # "priceFormat": {
-            #     "type": 'custom',
-            #     "formatter": (price) => Math.abs(price / 1000000).toFixed(2),
-	        # },
             "pane": 1
 
         }

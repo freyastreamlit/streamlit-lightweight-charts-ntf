@@ -1,10 +1,9 @@
 # streamlit-lightweight-charts-ntf
 
-This streamlit plugin uses a fork [ntf](https://github.com/ntf/lightweight-charts) of `lightweight-charts`.
-It augments the [lightweight-charts](https://tradingview.github.io/lightweight-charts/) with an effective multipane experience.
+This streamlit component wraps `lightweight-charts` using the [ntf](https://github.com/ntf/lightweight-charts) fork.
+This fork augments the [lightweight-charts](https://tradingview.github.io/lightweight-charts/) with an effective and aligned multipane experience.
 
-The [ntf](https://github.com/ntf/lightweight-charts) fork is frozen in an old version, there are no further developments, and no further updates - it is a `AS IT IS`situation.
-Although it seems very stable and very useful for financial and trading Data Science. It has an extra option `pane` that:
+The [ntf](https://github.com/ntf/lightweight-charts) fork is frozen on an old version (v3.8.0), there are no further developments, and no further updates - `it is an AS IT IS scenario`. Although it seems very stable and very useful for financial and trading Data Science. It has an extra option `pane` that:
 
  - Aligns panes - by width
  - synchronises panes mouse moves

@@ -1,10 +1,9 @@
 # streamlit-lightweight-charts-ntf
 
-This streamlit plugin uses a fork [ntf](https://github.com/ntf/lightweight-charts) of `lightweight-charts`.
-It augments the [lightweight-charts](https://tradingview.github.io/lightweight-charts/) with an effective multipane experience.
+This streamlit component wraps `lightweight-charts` using the [ntf](https://github.com/ntf/lightweight-charts) fork.
+This fork augments the [lightweight-charts](https://tradingview.github.io/lightweight-charts/) with an effective and aligned multipane experience.
 
-The [ntf](https://github.com/ntf/lightweight-charts) fork is frozen in an old version, there are no further developments, and no further updates - it is a `AS IT IS`situation.
-Although it seems very stable and very useful for financial and trading Data Science. It has an extra option `pane` that:
+The [ntf](https://github.com/ntf/lightweight-charts) fork is frozen on an old version (v3.8.0), there are no further developments, and no further updates - `it is an AS IT IS scenario`. Although it seems very stable and very useful for financial and trading Data Science. It has an extra option `pane` that:
 
  - Aligns panes - by width
  - synchronises panes mouse moves
@@ -54,7 +53,16 @@ renderLightweightCharts(charts: <List of Dicts> , key: <str>)
 - key: `<str>` when creating multiple charts in one page
 
 ### The extra option: `pane`
-In the example below you will notice the option `pane` that is used to group charts 
+In the example below you will notice the option `pane` that is used to group charts
+
+### It return values from an onClick() event
+
+- `<List of Dicts>`
+- - `time` (x axis)
+- - `prices` (y axis)
+- - - `title` (title set in options)
+- - - `type` (e.g. Candlestick)
+- - - `values` (depending on chart type)
 
 ---
 <br />
@@ -146,6 +154,7 @@ chartMultipaneOptions = [
 seriesMultipaneChart = [
     {
         "type": 'Candlestick',
+        "title": 'Main chart',
         "data": candles,
         "options": {
             "upColor": COLOR_BULL,
@@ -158,6 +167,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Line',
+        "title": 'SMA slow',
         "data": sma_slow,
         "options": {
             "color": 'blue',
@@ -167,6 +177,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Line',
+        "title": 'EMA fast',
         "data": ema_fast,
         "options": {
             "color": 'green',
@@ -176,6 +187,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Histogram',
+        "title": 'volume ASK',
         "data": vol_ASK,
         "options": {
             "priceFormat": {
@@ -187,6 +199,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Histogram',
+        "title": 'volume BID',
         "data": vol_BID,
         "options": {
             "priceFormat": {
@@ -198,6 +211,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Line',
+        "title": 'RSI',
         "data": rsi,
         "options": {
             "lineWidth": 2,
@@ -206,6 +220,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Line',
+        "title": 'MACD fast',
         "data": macd_fast,
         "options": {
             "lineWidth": 2,
@@ -214,6 +229,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Line',
+        "title": 'MACD slow',
         "data": macd_slow,
         "options": {
             "lineWidth": 2,
@@ -222,6 +238,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Histogram',
+        "title": 'MACD histogram',
         "data": macd_hist,
         "options": {
             "lineWidth": 1,
@@ -232,10 +249,12 @@ seriesMultipaneChart = [
 
 st.subheader("Multipane Chart with Pandas")
 
-renderLightweightCharts([
+click_events = renderLightweightCharts([
     {
         "chart": chartMultipaneOptions[0],
         "series": seriesMultipaneChart
     }
 ], 'multipane')
+
+print('onClick event', click_events)
 ```

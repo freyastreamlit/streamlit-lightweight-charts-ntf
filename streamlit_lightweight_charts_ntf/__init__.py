@@ -158,6 +158,7 @@ if not _RELEASE:
     seriesMultipaneChart = [
         {
             "type": 'Candlestick',
+            "title": 'Main chart',
             "data": candles,
             "options": {
                 "upColor": COLOR_BULL,
@@ -166,10 +167,21 @@ if not _RELEASE:
                 "wickUpColor": COLOR_BULL,
                 "wickDownColor": COLOR_BEAR,
                 "pane": 0
-            }
+            },
+            "markers": [
+                {
+                    "time": '2019-05-03',
+                    "position": 'aboveBar',
+                    "color": 'rgba(67, 83, 254, 1)',
+                    "shape": 'arrowDown',
+                    "text": 'PEAK',
+                    "size": 3
+                }
+            ]
         },
         {
             "type": 'Line',
+            "title": 'SMA slow',
             "data": sma_slow,
             "options": {
                 "color": 'blue',
@@ -179,6 +191,7 @@ if not _RELEASE:
         },
         {
             "type": 'Line',
+            "title": 'EMA fast',
             "data": ema_fast,
             "options": {
                 "color": 'green',
@@ -188,6 +201,7 @@ if not _RELEASE:
         },
         {
             "type": 'Histogram',
+            "title": 'volume ASK',
             "data": vol_ASK,
             "options": {
                 "priceFormat": {
@@ -199,6 +213,7 @@ if not _RELEASE:
         },
         {
             "type": 'Histogram',
+            "title": 'volume BID',
             "data": vol_BID,
             "options": {
                 "priceFormat": {
@@ -210,6 +225,7 @@ if not _RELEASE:
         },
         {
             "type": 'Line',
+            "title": 'RSI',
             "data": rsi,
             "options": {
                 "lineWidth": 2,
@@ -218,6 +234,7 @@ if not _RELEASE:
         },
         {
             "type": 'Line',
+            "title": 'MACD fast',
             "data": macd_fast,
             "options": {
                 "lineWidth": 2,
@@ -226,6 +243,7 @@ if not _RELEASE:
         },
         {
             "type": 'Line',
+            "title": 'MACD slow',
             "data": macd_slow,
             "options": {
                 "lineWidth": 2,
@@ -234,6 +252,7 @@ if not _RELEASE:
         },
         {
             "type": 'Histogram',
+            "title": 'MACD histogram',
             "data": macd_hist,
             "options": {
                 "lineWidth": 1,
@@ -244,9 +263,11 @@ if not _RELEASE:
 
     st.subheader("Multipane Chart with Pandas")
 
-    renderLightweightCharts([
+    click_events = renderLightweightCharts([
         {
             "chart": chartMultipaneOptions[0],
             "series": seriesMultipaneChart
         }
     ], 'multipane')
+
+    print('onClick events', click_events)

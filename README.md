@@ -53,7 +53,16 @@ renderLightweightCharts(charts: <List of Dicts> , key: <str>)
 - key: `<str>` when creating multiple charts in one page
 
 ### The extra option: `pane`
-In the example below you will notice the option `pane` that is used to group charts 
+In the example below you will notice the option `pane` that is used to group charts
+
+### It return values from an onClick() event
+
+- `<List of Dicts>`
+- - `time` (x axis)
+- - `prices` (y axis)
+- - - `title` (title set in options)
+- - - `type` (e.g. Candlestick)
+- - - `values` (depending on chart type)
 
 ---
 <br />
@@ -145,6 +154,7 @@ chartMultipaneOptions = [
 seriesMultipaneChart = [
     {
         "type": 'Candlestick',
+        "title": 'Main chart',
         "data": candles,
         "options": {
             "upColor": COLOR_BULL,
@@ -157,6 +167,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Line',
+        "title": 'SMA slow',
         "data": sma_slow,
         "options": {
             "color": 'blue',
@@ -166,6 +177,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Line',
+        "title": 'EMA fast',
         "data": ema_fast,
         "options": {
             "color": 'green',
@@ -175,6 +187,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Histogram',
+        "title": 'volume ASK',
         "data": vol_ASK,
         "options": {
             "priceFormat": {
@@ -186,6 +199,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Histogram',
+        "title": 'volume BID',
         "data": vol_BID,
         "options": {
             "priceFormat": {
@@ -197,6 +211,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Line',
+        "title": 'RSI',
         "data": rsi,
         "options": {
             "lineWidth": 2,
@@ -205,6 +220,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Line',
+        "title": 'MACD fast',
         "data": macd_fast,
         "options": {
             "lineWidth": 2,
@@ -213,6 +229,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Line',
+        "title": 'MACD slow',
         "data": macd_slow,
         "options": {
             "lineWidth": 2,
@@ -221,6 +238,7 @@ seriesMultipaneChart = [
     },
     {
         "type": 'Histogram',
+        "title": 'MACD histogram',
         "data": macd_hist,
         "options": {
             "lineWidth": 1,
@@ -231,10 +249,12 @@ seriesMultipaneChart = [
 
 st.subheader("Multipane Chart with Pandas")
 
-renderLightweightCharts([
+click_events = renderLightweightCharts([
     {
         "chart": chartMultipaneOptions[0],
         "series": seriesMultipaneChart
     }
 ], 'multipane')
+
+print('onClick event', click_events)
 ```

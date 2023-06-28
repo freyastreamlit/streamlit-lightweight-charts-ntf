@@ -1,18 +1,9 @@
 import os
 from typing import Dict
-from enum import Enum
 import streamlit.components.v1 as components
 
 _COMPONENT_NAME = "streamlit_lightweight_charts_ntf"
 _RELEASE = True
-
-class Chart(str, Enum):
-    Area = 'addAreaSeries'
-    Baseline = 'addBaselineSeries'
-    Histogram = 'addHistogramSeries'
-    Line = 'addLineSeries'
-    Bar = 'addBarSeries'
-    Candlestick = 'addCandlestickSeries'
 
 parent_dir = os.path.dirname(os.path.abspath(__file__))
 build_dir = os.path.join(parent_dir, "frontend","build")

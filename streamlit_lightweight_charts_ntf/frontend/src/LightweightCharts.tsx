@@ -14,6 +14,15 @@ interface ChartsDataItems {
   series: any;
 }
 
+enum Chart{
+    Area = 'addAreaSeries',
+    Baseline = 'addBaselineSeries',
+    Histogram = 'addHistogramSeries',
+    Line = 'addLineSeries',
+    Bar = 'addBarSeries',
+    Candlestick = 'addCandlestickSeries',
+}
+
 const LightweightChartsMultiplePanes: React.VFC = () => {
 
   // { args: object, disabled: boolean, theme: object } from Streamlit
@@ -39,7 +48,7 @@ const LightweightChartsMultiplePanes: React.VFC = () => {
         for (const series of chartsData[i].series){
 
           // @ts-ignore - dynamic access to IChartApi methods (e.g.: chart.addLineSeries() )
-          const chartSeries = chart[`add${series.type}Series`](series.options)
+          const chartSeries = chart[Chart[series.type]](series.options)
 
           if(series.priceScale)
             chart.priceScale(series.options.priceScaleId || '').applyOptions(series.priceScale)
@@ -55,9 +64,9 @@ const LightweightChartsMultiplePanes: React.VFC = () => {
         chart.subscribeClick((param: MouseEventParams) => {
           if (!param.point || !param.time) { return }
 
-          const charts: any[] = []
+          const prices: any[] = []
+
           chartsData.forEach((el: ChartsDataItems) => {
-            const prices: any[] = []
             el.series.forEach((series: any, idx: number) => {
               // @ts-ignore - get the whole set by idx 
               const values = [ ...param.seriesData.values() ][idx]
@@ -67,13 +76,12 @@ const LightweightChartsMultiplePanes: React.VFC = () => {
                 values
               })
             })
-            charts.push({
-              'time': param.time,
-              prices
-            })
           })
 
-          Streamlit.setComponentValue(charts)
+          Streamlit.setComponentValue({
+            'time': param.time,
+            prices
+          })
 
         })
 

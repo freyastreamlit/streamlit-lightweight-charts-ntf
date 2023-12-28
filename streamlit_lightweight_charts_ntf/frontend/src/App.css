@@ -1,0 +1,29 @@
+.floating-tooltip-2 {
+  position: absolute;
+  pointer-events: none;
+  padding: 8px;
+  margin-top: 12px;
+  background: white;
+  box-sizing: border-box;
+  color: black;
+  left: 12px;
+  border-radius: 2px;
+  border: 1px solid;
+  font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif;
+  text-align: left;
+  font-size: 12px;
+  display: none; /* Initially hide the tooltip */
+  z-index: 1000; /* Ensure the tooltip is above other elements */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.tooltip-title {
+  font-weight: bold;
+  color: green; /* Or any color you prefer */
+}
+
+.tooltip-content {
+  font-weight: normal;
+  color: black;
+}

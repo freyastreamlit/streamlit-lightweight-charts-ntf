@@ -10,13 +10,16 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "apache-arrow": "^14.0.2",
     "lightweight-charts": "git+https://github.com/freyastreamlit/lightweight-charts#ntf",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1",
-    "streamlit-component-lib-react-hooks": "^1.0.3"
+    "react-scripts": "^5.0.1",
+    "streamlit-component-lib": "^2.0.0",
+    "streamlit-component-lib-react-hooks": "^1.1.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "typescript": "^4.6.2"
   },
   "scripts": {
